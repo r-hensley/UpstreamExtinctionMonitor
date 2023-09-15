@@ -1,0 +1,312 @@
+G4BL_DIR=/private/var/folders/sl/xtk1qrx55099l82f7v0h84sr0000gn/T/AppTranslocation/BD463F2F-365D-42F5-8AAF-6E73F34CD686/d/G4beamline-3.06.app/Contents
+G4ENSDFSTATEDATA=/Users/jingluwang/Geant4Data/G4ENSDFSTATE2.2
+G4LEDATA=/Users/jingluwang/Geant4Data/G4EMLOW7.7
+G4LEVELGAMMADATA=/Users/jingluwang/Geant4Data/PhotonEvaporation5.3
+G4SAIDXSDATA=/Users/jingluwang/Geant4Data/G4SAIDDATA2.0
+G4NEUTRONHPDATA=/Users/jingluwang/Geant4Data/G4NDL4.5
+G4NEUTRONXSDATA=/Users/jingluwang/Geant4Data/G4NEUTRONXS1.4
+G4PIIDATA=/Users/jingluwang/Geant4Data/G4PII1.3
+G4RADIOACTIVEDATA=/Users/jingluwang/Geant4Data/RadioactiveDecay5.3
+G4REALSURFACEDATA=/Users/jingluwang/Geant4Data/RealSurface2.1.1
+G4ABLADATA=/Users/jingluwang/Geant4Data/G4ABLA3.1
+G4PARTICLEXSDATA=/Users/jingluwang/Geant4Data/G4PARTICLEXS1.1
+G4INCLDATA=/Users/jingluwang/Geant4Data/G4INCL1.0
+G4TENDLDATA=/Users/jingluwang/Geant4Data/G4TENDL1.3.2
+G4beamline Process ID 8967
+
+*************************************************************
+ g4beamline version: 3.06                        (Jan 18 2019)
+                      Copyright : Tom Roberts, Muons, Inc.
+                        License : Gnu Public License
+                            WWW : http://g4beamline.muonsinc.com
+**************************************************************
+ Geant4 version Name: geant4-10-05    (7-December-2018)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+param        viewer        best,1
+geometry                   nPoints=100 printGeometry=0 visual=0
+                           tolerance=0.002
+G4PhysListFactory::GetReferencePhysList <FTFP_BERT>  EMoption= 0
+<<< Geant4 Physics List simulation engine: FTFP_BERT 2.0
+
+<<< Reference Physics List FTFP_BERT is built
+
+physics      FTFP_BERT     disable= inactivate= deactivate= doStochastics=1
+                           fluct=1 minRangeCut=1 list=0 gammaToMuPair=0
+                           spinTracking=0 synchrotronRadiation=0
+                           synchrotronRadiationMuon=0 maxTime=1e+06
+param        pi            3.1415926536
+param        clight        299792458.0
+param        muM           105.658
+param        pM            938.272
+param        pKE           8000.0
+param        pP            8888.8892
+param        nparticles    1e06
+beam    GAUSSIAN particle=proton nEvents=1000000 firstEvent=-1 lastEvent=2147483647 beamX=0.0 beamY=0.0 beamZ=-1.0 maxR=1000000.0 
+		meanMomentum=8888.9 weight=1.000000 
+		sigmaX=0.2 sigmaY=0.2 sigmaZ=0.0 sigmaXp=0.00000 sigmaYp=0.00000 
+		sigmaP=0.0 sigmaT=0.000 meanXp=0.00000 meanYp=0.00000 meanT=0.000 
+tubs         beamPipe      innerRadius=38.1 outerRadius=39.6 initialPhi=0
+                           finalPhi=360 length=900 maxStep=100
+                           material=STAINLESS-STEEL color=0.85,0.85,0.85
+                           kill=0 radius=39.6
+param        LEN_VacPlate  0.1016
+param        LEN_HVPlate   0.0381
+param        LEN_GndPlate  0.0381
+param        LEN_SigPlate  0.0381
+material ArgCO2 Mixture: 0.80*Ar+0.20*CARBON_DIOXIDE
+                density=0.002 temperature=273 pressure=1.0
+box          VacPlateF     height=70 width=70 length=0.1016 maxStep=100
+                           material=Ti color=0,1,1 kill=0
+box          ArCO2a        height=70 width=70 length=1.486 maxStep=100
+                           material=ArgCO2 color=invisible kill=0
+box          GndPlateF     height=70 width=70 length=0.0381 maxStep=100
+                           material=Al color=0,0,1 kill=0
+box          ArCO2b        height=70 width=70 length=3.137 maxStep=100
+                           material=ArgCO2 color=invisible kill=0
+box          HVPlateF      height=70 width=70 length=0.0381 maxStep=100
+                           material=Al color=1,0,1 kill=0
+box          ArCO2c        height=70 width=70 length=6.312 maxStep=100
+                           material=ArgCO2 color=invisible kill=0
+box          SigPlate      height=70 width=70 length=0.0381 maxStep=100
+                           material=Al color=0,1,0 kill=0
+box          ArCO2d        height=70 width=70 length=6.312 maxStep=100
+                           material=ArgCO2 color=invisible kill=0
+box          HVPlateB      height=70 width=70 length=0.0381 maxStep=100
+                           material=Al color=1,0,1 kill=0
+box          ArCO2e        height=70 width=70 length=3.137 maxStep=100
+                           material=ArgCO2 color=invisible kill=0
+box          GndPlateB     height=70 width=70 length=0.0381 maxStep=100
+                           material=Al color=0,0,1 kill=0
+box          ArCO2f        height=70 width=70 length=1.486 maxStep=100
+                           material=ArgCO2 color=invisible kill=0
+box          VacPlateB     height=70 width=70 length=0.1016 maxStep=100
+                           material=Ti color=0,1,1 kill=0
+virtualdetector VD         radius=500 innerRadius=0 height=1000 width=1000
+                           length=1 maxStep=100 material= color=1,1,0
+                           noSingles=0 format=rootextended filename= file=
+                           require= referenceParticle=0 coordinates=centerline
+                           kill=0
+place   beamPipe copies=1 x=0.0 y=0.0 z=500.0 
+place   VacPlateF copies=1 x=0.0 y=0.0 z=0.1 
+place   ArCO2a  copies=1 x=0.0 y=0.0 z=0.8 
+place   GndPlateF copies=1 x=0.0 y=0.0 z=1.6 
+place   ArCO2b  copies=1 x=0.0 y=0.0 z=3.2 
+place   HVPlateF copies=1 x=0.0 y=0.0 z=4.8 
+place   ArCO2c  copies=1 x=0.0 y=0.0 z=8.0 
+place   SigPlate copies=1 x=0.0 y=0.0 z=11.1 
+place   ArCO2d  copies=1 x=0.0 y=0.0 z=14.3 
+place   HVPlateB copies=1 x=0.0 y=0.0 z=17.5 
+place   ArCO2e  copies=1 x=0.0 y=0.0 z=19.1 
+place   GndPlateB copies=1 x=0.0 y=0.0 z=20.7 
+place   ArCO2f  copies=1 x=0.0 y=0.0 z=21.4 
+place   VacPlateB copies=1 x=0.0 y=0.0 z=22.3 
+place   VD      copies=1 x=0.0 y=0.0 z=1000.5 
+
+World size (before incrementing by 201.357 mm): 1000.0 H  1000.0 W  2002.0 L
+
+PARAMETERS:
+   LEN_GndPlate=0.0381
+    LEN_HVPlate=0.0381
+   LEN_SigPlate=0.0381
+   LEN_VacPlate=0.1016
+            Zcl=1001
+         clight=299792458.0
+     deltaChord=3.0
+deltaIntersection=0.1
+   deltaOneStep=0.01
+         epsMax=0.05
+         epsMin=2.5e-7
+ eventTimeLimit=30
+    fieldVoxels=200,200,200
+      histoFile=g4beamline
+    histoUpdate=0
+        maxStep=100.0
+        minStep=0.01
+            muM=105.658
+     nparticles=1e06
+            pKE=8000.0
+             pM=938.272
+             pP=8888.8892
+             pi=3.1415926536
+ steppingFormat=N GLOBAL CL KE STEP VOL PROCESS
+steppingVerbose=0
+         viewer=best,1
+ wallClockLimit=-1
+  worldMaterial=Vacuum
+     zTolerance=2.0
+Checking overlaps for volume beamPipe ... OK! 
+BLCMDtubs::Construct beamPipe parent= relZ=500.0 globZ=500.0
+	zmin=50.0 zmax=950.0 kill=0
+Checking overlaps for volume VacPlateF ... OK! 
+BLCMDbox::Construct VacPlateF parent= relZ=0.1 globZ=0.1
+	zmin=0.0 zmax=0.1
+Checking overlaps for volume ArCO2a ... OK! 
+BLCMDbox::Construct ArCO2a parent= relZ=0.8 globZ=0.8
+	zmin=0.1 zmax=1.6
+Checking overlaps for volume GndPlateF ... OK! 
+BLCMDbox::Construct GndPlateF parent= relZ=1.6 globZ=1.6
+	zmin=1.6 zmax=1.6
+Checking overlaps for volume ArCO2b ... OK! 
+BLCMDbox::Construct ArCO2b parent= relZ=3.2 globZ=3.2
+	zmin=1.6 zmax=4.8
+Checking overlaps for volume HVPlateF ... OK! 
+BLCMDbox::Construct HVPlateF parent= relZ=4.8 globZ=4.8
+	zmin=4.8 zmax=4.8
+Checking overlaps for volume ArCO2c ... OK! 
+BLCMDbox::Construct ArCO2c parent= relZ=8.0 globZ=8.0
+	zmin=4.8 zmax=11.1
+Checking overlaps for volume SigPlate ... OK! 
+BLCMDbox::Construct SigPlate parent= relZ=11.1 globZ=11.1
+	zmin=11.1 zmax=11.2
+Checking overlaps for volume ArCO2d ... OK! 
+BLCMDbox::Construct ArCO2d parent= relZ=14.3 globZ=14.3
+	zmin=11.2 zmax=17.5
+Checking overlaps for volume HVPlateB ... OK! 
+BLCMDbox::Construct HVPlateB parent= relZ=17.5 globZ=17.5
+	zmin=17.5 zmax=17.5
+Checking overlaps for volume ArCO2e ... OK! 
+BLCMDbox::Construct ArCO2e parent= relZ=19.1 globZ=19.1
+	zmin=17.5 zmax=20.6
+Checking overlaps for volume GndPlateB ... OK! 
+BLCMDbox::Construct GndPlateB parent= relZ=20.7 globZ=20.7
+	zmin=20.6 zmax=20.7
+Checking overlaps for volume ArCO2f ... OK! 
+BLCMDbox::Construct ArCO2f parent= relZ=21.4 globZ=21.4
+	zmin=20.7 zmax=22.2
+Checking overlaps for volume VacPlateB ... OK! 
+BLCMDbox::Construct VacPlateB parent= relZ=22.3 globZ=22.3
+	zmin=22.2 zmax=22.3
+Checking overlaps for volume VD ... OK! 
+BLCMDvirtualdetector::Construct VD parent= relZ=1000.5 globZ=1000.5
+
+ FTFP_BERT : new threshold between BERT and FTFP is over the interval 
+ for pions :   3 to 12 GeV
+ for kaons :   3 to 12 GeV
+ for proton :  3 to 12 GeV
+ for neutron : 3 to 12 GeV
+
+### Adding tracking cuts for neutron  TimeCut(ns)= 10000  KinEnergyCut(MeV)= 0
+
+Geometry test nPoints=100 tolerance=0.002 mm:
+Testing geometry for children of group 'World':
+Total geometry errors = 0  0 seconds
+
+================== Prepare Visualization ==================
+Stochastic processes are enabled.
+Available UI session types: [ Qt, GAG, tcsh, csh ]
+Visualization Manager instantiating with verbosity "warnings (3)"...
+Visualization Manager initialising...
+Registering graphics systems...
+
+You have successfully registered the following graphics systems.
+Current available graphics systems are:
+ASCIITree (ATree)
+DAWNFILE (DAWNFILE)
+G4HepRep (HepRepXML)
+G4HepRepFile (HepRepFile)
+RayTracer (RayTracer)
+VRML1FILE (VRML1FILE)
+VRML2FILE (VRML2FILE)
+gMocrenFile (gMocrenFile)
+OpenGLImmediateQt (OGLIQt, OGLI)
+OpenGLStoredQt (OGLSQt, OGL, OGLS)
+
+Registering model factories...
+
+You have successfully registered the following model factories.
+Registered model factories:
+  generic
+  drawByAttribute
+  drawByCharge
+  drawByOriginVolume
+  drawByParticleID
+  drawByEncounteredVolume
+
+Registered filter factories:
+  attributeFilter
+  chargeFilter
+  originVolumeFilter
+  particleFilter
+  encounteredVolumeFilter
+
+You have successfully registered the following user vis actions.
+Run Duration User Vis Actions: none
+End of Event User Vis Actions: none
+End of Run User Vis Actions: none
+
+Some /vis commands (optionally) take a string to specify colour.
+"/vis/list" to see available colours.
+qt.qpa.cocoa.window: <QNSWindow: 0x7fc181116480; contentView=<QNSView: 0x7fc1811161a0; QCocoaWindow(0x6000037e8180, window=QWidgetWindow(0x6000026d0720, name="QWidgetClassWindow"))>> has active key-value observers (KVO)! These will stop working now that the window is recreated, and will result in exceptions when the observers are removed. Break in QCocoaWindow::recreateWindowIfNeeded to debug.
+
+Selected visualization viewer: Qt
+BLVisManager init: /vis/open OGLSQt
+BLVisManager init: /vis/viewer/set/auxiliaryEdge true
+BLVisManager init: /vis/viewer/set/style surface
+BLVisManager init: /vis/viewer/set/viewpointThetaPhi 0 0 deg
+BLVisManager init: /vis/drawVolume
+BLVisManager init: /tracking/storeTrajectory 1
+BLVisManager init: /vis/scene/add/trajectories
+/tracking/storeTrajectory 1
+Attributes available for modeling and filtering with
+  "/vis/modeling/trajectories/create/drawByAttribute" and
+  "/vis/filtering/trajectories/create/attributeFilter" commands:
+G4TrajectoriesModel:
+  Event ID (EventID): G4int
+  Run ID (RunID): G4int
+G4Trajectory:
+  Charge (Ch): unit: e+ (G4double)
+  Track ID (ID): G4int
+  Initial kinetic energy (IKE): G4BestUnit (G4double)
+  Initial momentum magnitude (IMag): G4BestUnit (G4double)
+  Initial momentum (IMom): G4BestUnit (G4ThreeVector)
+  No. of points (NTP): G4int
+  PDG Encoding (PDG): G4int
+  Parent ID (PID): G4int
+  Particle Name (PN): G4String
+G4TrajectoryPoint:
+  Position (Pos): G4BestUnit (G4ThreeVector)
+WARNING: Trajectory storing has been requested.  This action may be
+  reversed with "/tracking/storeTrajectory 0".
+BLVisManager init: /vis/scene/endOfEventAction accumulate -1
+WARNING: The vis manager will keep an unlimited number of events.
+  This may use a lot of memory.
+  It may be changed with, e.g., "/vis/scene/endOfEventAction accumulate 10".
+BLVisManager init: /vis/viewer/set/hiddenMarker true
+
+WARNING: SetUserAction is deprecated. Use RegisterRunDurationUserVisAction.
+WARNING: No extent set for user vis action "SetUserAction".
+WARNING: User Vis Action extent is null.
+qt.qpa.cocoa.window: <QNSWindow: 0x7fc16770e800; contentView=<QNSView: 0x7fc16770e3d0; QCocoaWindow(0x6000037f4240, window=QWidgetWindow(0x6000026c1020, name="qt_tabwidget_stackedwidgetWindow"))>> has active key-value observers (KVO)! These will stop working now that the window is recreated, and will result in exceptions when the observers are removed. Break in QCocoaWindow::recreateWindowIfNeeded to debug.
+2023-09-15 12:35:37.390 g4bl[8967:6295364] TSM AdjustCapsLockLEDForKeyTransitionHandling - _ISSetPhysicalKeyboardCapsLockLED Inhibit
+=======================================================================
+======       Radioactive Decay Physics Parameters              ========
+=======================================================================
+Max life time                                     1.4427e+06 ps
+Internal e- conversion flag                       1
+Stored internal conversion coefficients           1
+Enable correlated gamma emission                  0
+Max 2J for sampling of angular correlations       10
+Atomic de-excitation enabled                      1
+Auger electron emission enabled                   1
+Auger cascade enabled                             1
+Check EM cuts disabled for atomic de-excitation   1
+Use Bearden atomic level energies                 0
+=======================================================================
+G4VisManager: Using G4TrajectoryDrawByCharge as fallback trajectory model.
+See commands in /vis/modeling/trajectories/ for other options.
+WARNING: 1000 events have been kept for refreshing and/or reviewing.
+
+  "/vis/reviewKeptEvents" to review them one by one.
+  "/vis/enable", then "/vis/viewer/flush" or "/vis/viewer/rebuild" to see them accumulated.
+
+Graphics systems deleted.
+Visualization Manager deleting...
+
+Exceptions: 0 Fatal, 0 Events Aborted, 0 Stuck Tracks (stopped), 0 Warnings
+g4beamline: simulation complete
