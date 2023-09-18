@@ -5,13 +5,13 @@
 int Nprotons = 1e07;
 
 // file names
-TString infileName = "../g4bl/g4beamline.root";
+TString infileName = "../src/g4beamline.root";
 TString outfileName = "rootfiles/ScatterDistribution.root";
 
 // binning info for VD division
-int START = 20;
+int START = 40;
 int END = 500;
-int NBIN = ( END - START ) / 10;
+int NBIN = 4 + ( END - START ) / 10;
 // ------------------------------- Modification Zone - end ----------------------------------
 
 // -------------- Functions --------------
@@ -53,8 +53,8 @@ void VDtoIC(){
     VDtree->SetBranchAddress( "Pz", &P_z );
 
     // Histograms of scattering-distribution (T: traced back to IC)
-    TH1D *h_scatter = new TH1D("scatter", "scatter", NBIN, START, END);
-    TH1D *h_scatterT = new TH1D("scatterT", "scatterT", NBIN, START, END);
+    TH1D *h_scatter = new TH1D("scatter", "scatter", NBIN, 0, END);
+    TH1D *h_scatterT = new TH1D("scatterT", "scatterT", NBIN, 0, END);
     // -------------------------------- Variables reading & Histograms defining - end ------------------------------
 
     // -------------------------------- Event looping - begin -----------------------------
