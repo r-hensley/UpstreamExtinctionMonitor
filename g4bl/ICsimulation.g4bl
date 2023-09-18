@@ -1,5 +1,5 @@
 # Created by: Jinglu Wang, Sep 7, 2023
-# Updated: Sep 15, 2023
+# Updated: Sep 18, 2023
 
 # COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
 
@@ -18,7 +18,7 @@ param pP=sqrt(($pM+$pKE)*($pM+$pKE)-$pM*$pM) # MeV/c proton momentum
 
 
 # nEvents
-param nparticles=1e06
+param nparticles=1e07
 
 ###############################################
 ##############    Definition    ###############
@@ -58,7 +58,7 @@ box VacPlateB height=70.0  width=70.0  length=$LEN_VacPlate                color
 
 
 ##############  Virtual Detector (output format - root/ascii)
-virtualdetector VD    radius=500   innerRadius=0    length=1  color=1,1,0   format=rootExtended coordinates=centerline
+virtualdetector VD    radius=500   innerRadius=20    length=1  color=1,1,0   format=rootExtended coordinates=centerline
 
 ###################################################
 ##############  Place in the world  ###############
