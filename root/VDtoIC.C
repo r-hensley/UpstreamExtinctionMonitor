@@ -6,7 +6,7 @@ int Nprotons = 1e07;
 
 // file names
 TString infileName = "../src/g4beamline.root";
-TString outfileName = "rootfiles/ScatterDistribution.root";
+TString outfileName = "rootfiles/ScatterDistribution_charged.root";
 
 // binning info for VD division
 int START = 40;
@@ -14,7 +14,18 @@ int END = 500;
 int NBIN = 4 + ( END - START ) / 10;
 // ------------------------------- Modification Zone - end ----------------------------------
 
-// -------------- Functions --------------
+// ----------------- Functions ----------------
+///////////////////////////////////////////////
+////////// function for charge check //////////
+bool ChargeCheck(float id){
+    if ( std::abs(id) == 11 ) return true;// electron
+    if ( std::abs(id) == 13 ) return true;// muon
+    if ( std::abs(id) == 211 ) return true;// pion
+    if ( std::abs(id) == 321 ) return true;// kaon
+
+    return false;
+}
+
 //////////////////////////////////////////
 ////////// function for tracing //////////
 bool TraceCheck(float x, float y, float px, float py, float pz){
@@ -52,6 +63,10 @@ void VDtoIC(){
     VDtree->SetBranchAddress( "Py", &P_y );
     VDtree->SetBranchAddress( "Pz", &P_z );
 
+    // Using PDGid to check charge
+    float ID = 0;
+    VDtree->SetBranchAddress( "PDGid", &ID );
+
     // Histograms of scattering-distribution (T: traced back to IC)
     TH1D *h_scatter = new TH1D("scatter", "scatter", NBIN, 0, END);
     TH1D *h_scatterT = new TH1D("scatterT", "scatterT", NBIN, 0, END);
@@ -67,10 +82,10 @@ void VDtoIC(){
         float radius = std::sqrt( X*X + Y*Y );
 
         // 1. All particles detected
-        h_scatter->Fill(radius);
+        if ( ChargeCheck( ID ) ) h_scatter->Fill(radius);
 
         // 2. Only particles traced back to IC
-        if ( TraceCheck( X, Y, P_x, P_y, P_z ) ) h_scatterT->Fill(radius); 
+        if ( ChargeCheck( ID ) && TraceCheck( X, Y, P_x, P_y, P_z ) ) h_scatterT->Fill(radius); 
     }
     // -------------------------------- Event looping - end -------------------------------
 
