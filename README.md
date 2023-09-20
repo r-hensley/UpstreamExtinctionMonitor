@@ -41,7 +41,7 @@
 ### Part 2 (ROOT macro - "root/"): Loop to find two distributions of detected/traced scattering particles 
 #### Get histograms
     root -l root/VDtoIC.C
-- Charged particles (PDGid): electron (11), muon (13), pion (211), kaon (321)
+- Charged particles (PDGid): electron (11), muon (13), pion (211), kaon (321), proton (2212)
 - Two distributions:
   1. All detected charged particles: "scatter"
   2. Only charged particles traced back to IC: "scatterT"
@@ -53,4 +53,5 @@
     root -l root/drawHist.C
 - Output figure -- "root/figures/Nscatter_compare_1e07.png"\
   (VD: innerRadius=40 radius=500 | nEvents=1e07)
-![Nscatter_compare_1e07](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/46afce28-cbd9-422c-b2f0-9d89b17d490f)
+![Nscatter_compare_1e07](https://github.com/Mu2e/UpstreamExtinctionMonitor/assets/107279970/931dbc9a-bb3c-42d3-961c-ec1ab8e7afa0)
+
