@@ -2,7 +2,7 @@
 
 ## Simulation of scattering in Ion Chamber using G4beamline
 
-### Part 1 (g4bl - "src/"): Simulation in g4bl
+### Part 1 (g4bl - "g4bl/"): Simulation in g4bl
 #### Source code
     vi g4bl/ICsimulation.g4bl
 - Beam: gaussian, nEvents=1e07, particle = proton (M = 938.272 MeV, KE = 8000.0 MeV)
