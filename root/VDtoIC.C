@@ -22,6 +22,7 @@ bool ChargeCheck(float id){
     if ( std::abs(id) == 13 ) return true;// muon
     if ( std::abs(id) == 211 ) return true;// pion
     if ( std::abs(id) == 321 ) return true;// kaon
+    if ( std::abs(id) == 2212 ) return true;// proton
 
     return false;
 }

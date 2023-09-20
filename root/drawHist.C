@@ -3,7 +3,7 @@
 // ------------------------------- Modification Zone - begin --------------------------------
 // 1. input rootfile
 TString Nevents = "1e07";
-TString input = "rootfiles/ScatterDistribution_charged.root";
+TString input = "rootfiles/ScatterDistribution.root";
 
 // 2. hists to compare
 TString hist1 = "scatter";
@@ -21,7 +21,7 @@ TString LEGEND2 = "Tracks that Point to Foil";
 TString TEXT = "";
 
 // 6. output label
-TString LABEL = "figures/Nscatter_compare_" + Nevents + "_charged.png";
+TString LABEL = "figures/Nscatter_compare_" + Nevents + ".png";
 // ------------------------------- Modification Zone - end ----------------------------------
 
 
