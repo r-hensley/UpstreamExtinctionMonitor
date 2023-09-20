@@ -1,0 +1,85 @@
+# Created by: Jinglu Wang, Sep 7, 2023
+# Updated: Sep 15, 2023
+
+# COLORS:  100 red, 010 green, 111 white, 110 yellow, 001 blue, 101 magenta, 011 cyan
+
+######## Physics List
+physics FTFP_BERT #above 100 MeV, slower than FTFP below ~12 GeV 
+
+######## Constants
+param pi=3.1415926536 # pi to 10 decimal places
+param clight=299792458.0 # speed of light
+
+######## Particles
+param muM=105.658 # MeV/c mass of muon
+param pM=938.272 # MeV/c**2 proton mass
+param pKE=8000.0 # MeV proton kinetic energy
+param pP=sqrt(($pM+$pKE)*($pM+$pKE)-$pM*$pM) # MeV/c proton momentum
+
+
+# nEvents
+param nparticles=1e07
+
+###############################################
+##############    Definition    ###############
+###############################################
+
+##############  beam, beam pipe
+beam gaussian nEvents=$nparticles particle=proton \
+              beamZ=-1.0 \
+              meanMomentum=$pP sigmaX=0.25 sigmaY=0.25 sigmaXp=0.0 sigmaYp=0.0 sigmaP=0.0 sigmaT=0.0 meanT=0.0
+
+tube beamPipe innerRadius=38.1 radius=39.6 \
+              length=900 \
+              initialPhi=0 finalPhi=360 \
+              material=STAINLESS-STEEL color=0.85,0.85,0.85
+
+##############  Ion Chamber
+param LEN_VacPlate=0.004*25.4
+param LEN_HVPlate=0.0015*25.4
+param LEN_GndPlate=0.0015*25.4
+param LEN_SigPlate=0.0015*25.4
+
+material ArgCO2 Ar,0.80 CARBON_DIOXIDE,0.20 density=1.66*0.001
+
+box VacPlateF height=70.0  width=70.0  length=$LEN_VacPlate                color=0,1,1      material=Ti
+box ArCO2a    height=70.0  width=70.0  length=1*0.0625*25.4-$LEN_VacPlate  color=invisible  material=ArgCO2
+box GndPlateF height=70.0  width=70.0  length=$LEN_GndPlate                color=0,0,1      material=Al
+box ArCO2b    height=70.0  width=70.0  length=2*0.0625*25.4-$LEN_GndPlate  color=invisible  material=ArgCO2
+box HVPlateF  height=70.0  width=70.0  length=$LEN_HVPlate                 color=1,0,1      material=Al
+box ArCO2c    height=70.0  width=70.0  length=4*0.0625*25.4-$LEN_HVPlate   color=invisible  material=ArgCO2
+box SigPlate  height=70.0  width=70.0  length=$LEN_SigPlate                color=0,1,0      material=Al
+box ArCO2d    height=70.0  width=70.0  length=4*0.0625*25.4-$LEN_HVPlate   color=invisible  material=ArgCO2
+box HVPlateB  height=70.0  width=70.0  length=$LEN_HVPlate                 color=1,0,1      material=Al
+box ArCO2e    height=70.0  width=70.0  length=2*0.0625*25.4-$LEN_GndPlate  color=invisible  material=ArgCO2
+box GndPlateB height=70.0  width=70.0  length=$LEN_GndPlate                color=0,0,1      material=Al
+box ArCO2f    height=70.0  width=70.0  length=1*0.0625*25.4-$LEN_VacPlate  color=invisible  material=ArgCO2
+box VacPlateB height=70.0  width=70.0  length=$LEN_VacPlate                color=0,1,1      material=Ti
+
+
+##############  Virtual Detector (output format - root/ascii)
+virtualdetector VD    radius=500   innerRadius=40    length=1  color=1,1,0   format=rootExtended coordinates=centerline
+
+###################################################
+##############  Place in the world  ###############
+###################################################
+# beam pipe
+place beamPipe  front=1  z=50 
+
+# IC
+place VacPlateF front=1  z=0
+place ArCO2a    front=1  z=$LEN_VacPlate
+place GndPlateF front=1  z=1*0.0625*25.4
+place ArCO2b    front=1  z=1*0.0625*25.4+$LEN_GndPlate
+place HVPlateF  front=1  z=3*0.0625*25.4
+place ArCO2c    front=1  z=3*0.0625*25.4+$LEN_HVPlate
+place SigPlate  front=1  z=7*0.0625*25.4
+place ArCO2d    front=1  z=7*0.0625*25.4+$LEN_SigPlate
+place HVPlateB  front=1  z=11*0.0625*25.4
+place ArCO2e    front=1  z=11*0.0625*25.4+$LEN_HVPlate
+place GndPlateB front=1  z=13*0.0625*25.4
+place ArCO2f    front=1  z=13*0.0625*25.4+$LEN_GndPlate
+place VacPlateB front=1  z=14*0.0625*25.4
+
+# VD
+place VD        front=1  z=1000 # 1 m
