@@ -33,7 +33,7 @@
 #### Run with g4blgui 
 1. Root-output mode: "Run" without "Visualization" 
   (event rate: 13450 evt/s)\
-  Output -- "src/g4beamline.root"
+  Output -- "g4bl/g4beamline.root"
 <p align="center">
   <img width="500" alt="g4beamline" src="https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/b7ce30c2-a917-4578-8044-1280f909e102">
 </p>
