@@ -1,5 +1,11 @@
 # UpstreamExtinctionMonitor
 
+### Plots
+- (Histogram) Particle Number n/mm^2/proton vs r:
+  - All Charged Tracks
+  - Tracks that Point to Foil
+- (Graph) Particle Mean Energy vs r
+
 ## Simulation of scattering in Ion Chamber using G4beamline
 
 ### Part 1 (g4bl - "g4bl/"): Simulation in g4bl
@@ -42,9 +48,22 @@
 #### Get histograms
     root -l root/VDtoIC.C
 - Charged particles (PDGid): electron (11), muon (13), pion (211), kaon (321), proton (2212)
-- Two distributions:
+- (Histogram) Distributions of scattering particles
   1. All detected charged particles: "scatter"
+     - Using $x$, $y$ for radius range division (binning) | $z$ fixed at VD\
+       $$r = \sqrt{x^{2} + y^{2}}$$
   2. Only charged particles traced back to IC: "scatterT"
+     - Using $p_x$, $p_y$, $p_z$ to trace back a detected particle
+     - Location at the plane of IC:\
+       $$x_1 = x - p_x\times\frac{1000}{p_z} $$
+       $$y_1 = y - p_y\times\frac{1000}{p_z} $$
+     - Check if inside IC: (IC/foil geometry: 70mm(H) * 70mm(W) * (0.004 * 0.0625 * 25.4mm)(L))
+       $$|x_1| < 35 \quad\text{and}\quad |y_1| < 35$$
+- (Graph) Distribution of energies
+  - Using $E_x$, $E_y$, $E_z$ to calculate the particle energy
+    $$E = \sqrt{{E_x}^{2} + {E_y}^{2} + {E_z}^{2}}$$
+  - The mean particle energy $\bar{E_i}$ at a given radius $r_i$
+    $$\bar{E_i} = \frac{1}{\text{num of}j}\sum_{\[r_i-5, r_i+5\]} E_{j}$$
 - Output -- "root/rootfiles/ScatterDistribution.root"
 
 
