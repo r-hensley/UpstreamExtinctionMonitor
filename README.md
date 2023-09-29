@@ -60,8 +60,8 @@
      - Check if inside IC: (IC/foil geometry: 70mm(H) * 70mm(W) * (0.004 * 0.0625 * 25.4mm)(L))
        $$|x_1| < 35 \quad\text{and}\quad |y_1| < 35$$
 - (Graph) Distribution of energies
-  - Using $E_x$, $E_y$, $E_z$ to calculate the particle energy
-    $$E = \sqrt{{E_x}^{2} + {E_y}^{2} + {E_z}^{2}}$$
+  - Using $p_x$, $p_y$, $p_z$ and $M$ to calculate the particle energy (M_proton = 938.272 MeV, M_kaon = 493.677 MeV, M_pion = 139.6 MeV, M_muon = 105.7 MeV, M_electron = 0.511 MeV)
+    $$E = \sqrt{{p_x}^{2} + {p_y}^{2} + {p_z}^{2} + M^{2}}$$
   - The mean particle energy $\bar{E_i}$ at a given radius $r_i$
     $$\bar{E_i} = \frac{1}{\text{num of}j}\sum_{\[r_i-5, r_i+5\]} E_{j}$$
 - Output -- "root/rootfiles/ScatterDistribution.root"
