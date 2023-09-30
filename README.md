@@ -1,10 +1,10 @@
 # UpstreamExtinctionMonitor
 
 ### Plots
-- (Histogram) Particle Number n/mm^2/proton vs r:
+- (Histogram) Particle Rate (n/mm^2/proton) vs Radius (r \[mm\]):
   - All Charged Tracks
   - Tracks that Point to Foil
-- (Graph) Particle Mean Energy vs r
+- (Graph) Particle Mean Energy \[MeV\] vs Radius (r \[mm\])
 
 ## Simulation of scattering in Ion Chamber using G4beamline
 
@@ -48,7 +48,7 @@
 #### Get histograms
     root -l root/VDtoIC.C
 - Charged particles (PDGid): electron (11), muon (13), pion (211), kaon (321), proton (2212)
-- (Histogram) Distributions of scattering particles
+- (Histogram) Distributions of scattering particle rates
   1. All detected charged particles: "scatter"
      - Using $x$, $y$ for radius range division (binning) | $z$ fixed at VD\
        $$r = \sqrt{x^{2} + y^{2}}$$
@@ -67,10 +67,14 @@
 - Output -- "root/rootfiles/ScatterDistribution.root"
 
 
-### Part 3 (ROOT macro - "root/"): Draw plots comparing two histograms
-#### Draw plots
+### Part 3 (ROOT macro - "root/"): Draw plots
+#### Histograms - Rate vs Radius (Comparison between all charged and tracks that point to foil)
     root -l root/drawHist.C
 - Output figure -- "root/figures/Nscatter_compare_1e07.png"\
   (VD: innerRadius=40 radius=500 | nEvents=1e07)
 ![Nscatter_compare_1e07](https://github.com/Mu2e/UpstreamExtinctionMonitor/assets/107279970/931dbc9a-bb3c-42d3-961c-ec1ab8e7afa0)
 
+#### Graph - Mean Energy vs Radius (for different particles)
+    root -l root/drawGraph.C
+- Output figure -- "root/figures/MeanEnergy_vs_R_1e07_all.png"
+![MeanEnergy_vs_R_1e07_all](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/694ccc36-4b3d-4068-962b-4ad7fe751c26)
