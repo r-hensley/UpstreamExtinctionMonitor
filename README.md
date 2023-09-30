@@ -1,5 +1,11 @@
 # UpstreamExtinctionMonitor
 
+### Plots
+- (Histogram) Particle Rate (n/mm^2/proton) vs Radius (r \[mm\]):
+  - All Charged Tracks
+  - Tracks that Point to Foil
+- (Graph) Particle Mean Energy \[MeV\] vs Radius (r \[mm\])
+
 ## Simulation of scattering in Ion Chamber using G4beamline
 
 ### Part 1 (g4bl - "g4bl/"): Simulation in g4bl
@@ -27,12 +33,12 @@
 #### Run with g4blgui 
 1. Root-output mode: "Run" without "Visualization" 
   (event rate: 13450 evt/s)\
-  Output -- "src/g4beamline.root"
+  Output -- "g4bl/g4beamline.root"
 <p align="center">
   <img width="500" alt="g4beamline" src="https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/b7ce30c2-a917-4578-8044-1280f909e102">
 </p>
 
-3. Visualization mode
+2. Visualization mode
 <p align="center">
   <img width="500" alt="ICsimulation" src="https://github.com/JingluWang/G4beamline/assets/107279970/2e058818-4c25-451b-bb87-bcdc267e2241">
 </p>
@@ -42,16 +48,33 @@
 #### Get histograms
     root -l root/VDtoIC.C
 - Charged particles (PDGid): electron (11), muon (13), pion (211), kaon (321), proton (2212)
-- Two distributions:
+- (Histogram) Distributions of scattering particle rates
   1. All detected charged particles: "scatter"
+     - Using $x$, $y$ for radius range division (binning) | $z$ fixed at VD\
+       $$r = \sqrt{x^{2} + y^{2}}$$
   2. Only charged particles traced back to IC: "scatterT"
+     - Using $p_x$, $p_y$, $p_z$ to trace back a detected particle
+     - Location at the plane of IC:\
+       $$x_1 = x - p_x\times\frac{1000}{p_z} $$
+       $$y_1 = y - p_y\times\frac{1000}{p_z} $$
+     - Check if inside IC: (IC/foil geometry: 70mm(H) * 70mm(W) * (0.004 * 0.0625 * 25.4mm)(L))
+       $$|x_1| < 35 \quad\text{and}\quad |y_1| < 35$$
+- (Graph) Distribution of energies
+  - Using $p_x$, $p_y$, $p_z$ and $M$ to calculate the particle energy (M_proton = 938.272 MeV, M_kaon = 493.677 MeV, M_pion = 139.6 MeV, M_muon = 105.7 MeV, M_electron = 0.511 MeV)
+    $$E = \sqrt{{p_x}^{2} + {p_y}^{2} + {p_z}^{2} + M^{2}}$$
+  - The mean particle energy $\bar{E_i}$ at a given radius $r_i$
+    $$\bar{E_i} = \frac{1}{\text{num of}j}\sum_{\[r_i-5, r_i+5\]} E_{j}$$
 - Output -- "root/rootfiles/ScatterDistribution.root"
 
 
-### Part 3 (ROOT macro - "root/"): Draw plots comparing two histograms
-#### Draw plots
+### Part 3 (ROOT macro - "root/"): Draw plots
+#### Histograms - Rate vs Radius (Comparison between all charged and tracks that point to foil)
     root -l root/drawHist.C
 - Output figure -- "root/figures/Nscatter_compare_1e07.png"\
   (VD: innerRadius=40 radius=500 | nEvents=1e07)
 ![Nscatter_compare_1e07](https://github.com/Mu2e/UpstreamExtinctionMonitor/assets/107279970/931dbc9a-bb3c-42d3-961c-ec1ab8e7afa0)
 
+#### Graph - Mean Energy vs Radius (for different particles)
+    root -l root/drawGraph.C
+- Output figure -- "root/figures/MeanEnergy_vs_R_1e07_all.png"
+![MeanEnergy_vs_R_1e07_all](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/694ccc36-4b3d-4068-962b-4ad7fe751c26)
