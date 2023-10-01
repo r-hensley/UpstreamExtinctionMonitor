@@ -11,13 +11,12 @@
 ### Part 1 (g4bl - "g4bl/"): Simulation in g4bl
 #### Source code
     vi g4bl/ICsimulation.g4bl
-- Beam: gaussian, nEvents=1e07, particle = proton (M = 938.272 MeV, KE = 8000.0 MeV)
+- **Beam:** gaussian, nEvents=1e07, particle = proton (M = 938.272 MeV, KE = 8000.0 MeV)
   > 6.2 beam --- This command places itself into the geometry
-- Beam pipe: innerRadius = 38.1mm, radius=39.6mm
+- **Beam pipe:** innerRadius = 38.1mm, radius=39.6mm
   > 6.92 tube / 6.93 tubs --- via place
-- Virtual Detector: innerRadius = 40mm (outer radius of beam pipe = 39.6mm), radius = 500mm
-  > 6.96 virtualdetector Construct a VirtualDetector that generates an NTuple --- via place
-- Ion Chamber:
+
+- **Ion Chamber (IC):**
   #### Prototype:  Ti  =1=  Al  ==2==  Al  ====4====  Al  ====4====  Al  ==2==  Al  =1= Ti
   #### - material of spacers: Ar / CO2 (80 / 20%)
        material ArgCO2 Ar,0.80 CARBON_DIOXIDE,0.20 density=1.66*0.001
@@ -29,6 +28,11 @@
       box VacPlateF height=70.0  width=70.0  length=$LEN_VacPlate                color=0,1,1      material=Ti
       box ArCO2a    height=70.0  width=70.0  length=1*0.0625*25.4-$LEN_VacPlate  color=invisible  material=ArgCO2
       box GndPlateF height=70.0  width=70.0  length=$LEN_GndPlate                color=0,0,1      material=Al
+
+- **Virtual Detector:**
+  - innerRadius = 40mm (outer radius of beam pipe = 39.6mm), radius = 500mm
+  - distance from IC: 1 m
+  > 6.96 virtualdetector Construct a VirtualDetector that generates an NTuple --- via place
   
 #### Run with g4blgui 
 1. Root-output mode: "Run" without "Visualization" 
