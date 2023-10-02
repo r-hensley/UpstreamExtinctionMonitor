@@ -1,12 +1,17 @@
 # UpstreamExtinctionMonitor
 
 ### Plots
-- (Histogram) **Particle Rate (n/mm^2/proton) vs Radius (r \[mm\])**:
-  - All Charged Tracks
-  - Tracks that Point to Foil
-- (Graph) **Particle Mean Energy \[MeV\] vs Radius (r \[mm\])** - Tracks that Point to Foil
-  - Dominant particles: Proton, Pion, Electron
-  - "Rare" particles: Kaon, Muon
+- Histogram
+  - (1) Scattering Rate (n/mm^2/proton) vs Radius
+    - All Charged Tracks
+    - Tracks that Point to Foil
+  - (2-1) Scattering Rate in the first PMT (1 coincidence) vs Radius - Cherenkov threshold passed
+  - (2-2) Photoelectron Yield in the first PMT (1 coincidence) vs Radius - Cherenkov threshold passed (p.e.yield 187)
+  - (3) 3-fold Coincidence Rate vs Radius - Cherenkov threshold passed
+- Graph
+  - Particle Mean Energy vs Radius - Tracks that Point to Foil
+    - Dominant particles: Proton, Pion, Electron (p.e.yield 187 for 3.8 GeV Proton Gun)
+    - "Rare" particles: Kaon, Muon
 
 ## Simulation of scattering in Ion Chamber using G4beamline
 
