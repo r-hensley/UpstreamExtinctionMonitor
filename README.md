@@ -1,10 +1,12 @@
 # UpstreamExtinctionMonitor
 
 ### Plots
-- (Histogram) Particle Rate (n/mm^2/proton) vs Radius (r \[mm\]):
+- (Histogram) **Particle Rate (n/mm^2/proton) vs Radius (r \[mm\])**:
   - All Charged Tracks
   - Tracks that Point to Foil
-- (Graph) Particle Mean Energy \[MeV\] vs Radius (r \[mm\])
+- (Graph) **Particle Mean Energy \[MeV\] vs Radius (r \[mm\])** - Tracks that Point to Foil
+  - Dominant particles: Proton, Pion, Electron
+  - "Rare" particles: Kaon, Muon
 
 ## Simulation of scattering in Ion Chamber using G4beamline
 
@@ -63,6 +65,8 @@
        $$y_1 = y - p_y\times\frac{1000}{p_z} $$
      - Check if inside IC: (IC/foil geometry: 70mm(H) * 70mm(W) * (0.004 * 0.0625 * 25.4mm)(L))
        $$|x_1| < 35 \quad\text{and}\quad |y_1| < 35$$
+     - Check if inside beam pipe: (innerRadius = 38.1mm)
+       $$r_1 = \sqrt{x_{1}^{2} + y_{1}^{2}} < 38.1$$
 - (Graph) Distribution of energies
   - Using $p_x$, $p_y$, $p_z$ and $M$ to calculate the particle energy (M_proton = 938.272 MeV, M_kaon = 493.677 MeV, M_pion = 139.6 MeV, M_muon = 105.7 MeV, M_electron = 0.511 MeV)
     $$E = \sqrt{{p_x}^{2} + {p_y}^{2} + {p_z}^{2} + M^{2}}$$
@@ -81,4 +85,7 @@
 #### Graph - Mean Energy vs Radius (for different particles)
     root -l root/drawGraph.C
 - Output figure -- "root/figures/MeanEnergy_vs_R_1e07_all.png"
-![MeanEnergy_vs_R_1e07_all](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/694ccc36-4b3d-4068-962b-4ad7fe751c26)
+  - Dominant particles (Smooth): Proton, Pion, Electron
+  - "Rare" particles (Jagged): Kaon, Muon
+![MeanEnergy_vs_R_1e07_all_inPipe](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/48409ea2-3f33-4e6e-b552-ec0f771c41ec)
+
