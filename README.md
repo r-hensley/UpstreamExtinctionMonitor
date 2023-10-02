@@ -51,10 +51,10 @@
 
 
 ### Part 2 (ROOT macro - "root/"): Loop to find two distributions of detected/traced scattering particles 
-#### Get histograms
+#### Get plots
     root -l root/VDtoIC.C
 - Charged particles (PDGid): electron (11), muon (13), pion (211), kaon (321), proton (2212)
-- (Histogram) Distributions of scattering particle rates
+- **(Histogram)** Distributions of scattering particle rates
   1. All detected charged particles: "scatter"
      - Using $x$, $y$ for radius range division (binning) | $z$ fixed at VD\
        $$r = \sqrt{x^{2} + y^{2}}$$
@@ -67,13 +67,17 @@
        $$|x_1| < 35 \quad\text{and}\quad |y_1| < 35$$
      - Check if inside beam pipe: (innerRadius = 38.1mm)
        $$r_1 = \sqrt{x_{1}^{2} + y_{1}^{2}} < 38.1$$
-- (Graph) Distribution of energies
+- **(Graph)** Distribution of energies
   - Using $p_x$, $p_y$, $p_z$ and $M$ to calculate the particle energy (M_proton = 938.272 MeV, M_kaon = 493.677 MeV, M_pion = 139.6 MeV, M_muon = 105.7 MeV, M_electron = 0.511 MeV)
     $$E = \sqrt{{p_x}^{2} + {p_y}^{2} + {p_z}^{2} + M^{2}}$$
   - The mean particle energy $\bar{E_i}$ at a given radius $r_i$
     $$\bar{E_i} = \frac{1}{\text{num of}j}\sum_{\[r_i-5, r_i+5\]} E_{j}$$
-- Output -- "root/rootfiles/ScatterDistribution.root"
 
+#### Output file
+    root --web=off -l root/rootfiles/ScatterDistribution.root
+<p align="center">
+  <img width="500" alt="ScatterDistribution" src="https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/d00ca585-f4cf-4455-8037-5afe937d55fd">
+</p>
 
 ### Part 3 (ROOT macro - "root/"): Draw plots
 #### Histograms - Rate vs Radius (Comparison between all charged and tracks that point to foil)
