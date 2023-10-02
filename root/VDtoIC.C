@@ -72,8 +72,10 @@ bool TraceCheck(float x, float y, float px, float py, float pz){
     float x1 = x - px*1000/pz;
     float y1 = y - py*1000/pz;
 
+    float r1 = std::sqrt(x1*x1 + y1*y1);
+
     // IC (foil) geometry: 70mm(H) * 70mm(W) * 0.004*0.0625*25.4(mm)(L) 
-    if ( std::abs( x1 ) < 35 && std::abs( y1 ) < 35) return true;
+    if ( std::abs( x1 ) < 35 && std::abs( y1 ) < 35 && r1 < 38.1 ) return true;
 
     return false;
 }
@@ -173,10 +175,12 @@ void VDtoIC(){
         // 1. All particles detected
         h_scatter->Fill(radius);
         // 2. Only particles traced back to IC
-        if ( TraceCheck( X, Y, P_x, P_y, P_z ) ) h_scatterT->Fill(radius); 
-
-        // <Graph> summing up energies
-        SumEnergy( ID, radius, P_x, P_y, P_z );
+        if ( TraceCheck( X, Y, P_x, P_y, P_z ) ){
+            h_scatterT->Fill(radius);  
+        
+            // <Graph> summing up energies
+            SumEnergy( ID, radius, P_x, P_y, P_z );
+        } 
     }
     // -------------------------------- Event looping - end -------------------------------
 
