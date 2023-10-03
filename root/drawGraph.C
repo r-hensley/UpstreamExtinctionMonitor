@@ -6,19 +6,28 @@ TString Nevents = "1e07";
 TString input   = "rootfiles/ScatterDistribution.root";
 
 // 2. graph to draw
-float MAX = 7000;
+//float MAX = 7000;
+float MAX = 600;
 float MIN = 0;
 
 TString graph  = "energy";
+/*
 TString graph1 = "energyProton";
 TString graph2 = "energyKaon";
 TString graph3 = "energyPion";
 TString graph4 = "energyMuon";
 TString graph5 = "energyElectron";
+*/
+TString graph1 = "nProton";
+TString graph2 = "nKaon";
+TString graph3 = "nPion";
+TString graph4 = "nMuon";
+TString graph5 = "nElectron";
 
 // 3. Axis
 TString XAXIS = "r [mm]";
-TString YAXIS = "Mean Energy [MeV]";
+//TString YAXIS = "Mean Energy [MeV]";
+TString YAXIS = "Number of Particles";
 
 // 4. legend
 TString LEGEND1 = "Proton";
@@ -33,7 +42,9 @@ TString TEXTALL = "Tracks that Point to Foil";
 
 // 6. output label
 TString LABEL    = "figures/MeanEnergy_vs_R_" + Nevents + ".png";
-TString LABELALL = "figures/MeanEnergy_vs_R_" + Nevents + "_all.png";
+//TString LABELALL = "figures/MeanEnergy_vs_R_" + Nevents + "_all.png";
+TString LABELALL = "figures/nParticles_vs_R_" + Nevents + "_all.png";
+
 // ------------------------------- Modification Zone - end ----------------------------------
 
 

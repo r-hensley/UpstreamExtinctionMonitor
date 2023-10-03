@@ -36,12 +36,12 @@ float EnergyPion[50]     = {0};// pion
 float EnergyMuon[50]     = {0};// muon
 float EnergyElectron[50] = {0};// electron
 // to store the number of particles in each bin
-int   NEnergy[50]         = {0};
-int   NEnergyProton[50]   = {0};
-int   NEnergyKaon[50]     = {0};
-int   NEnergyPion[50]     = {0};
-int   NEnergyMuon[50]     = {0};
-int   NEnergyElectron[50] = {0};
+float NEnergy[50]         = {0};
+float NEnergyProton[50]   = {0};
+float NEnergyKaon[50]     = {0};
+float NEnergyPion[50]     = {0};
+float NEnergyMuon[50]     = {0};
+float NEnergyElectron[50] = {0};
 // to calculate the Mean = Energy / NEnergy
 float MeanEnergy[50]         = {0};
 float MeanEnergyProton[50]   = {0};
@@ -49,6 +49,16 @@ float MeanEnergyKaon[50]     = {0};
 float MeanEnergyPion[50]     = {0};
 float MeanEnergyMuon[50]     = {0};
 float MeanEnergyElectron[50] = {0};
+
+// Cherenkov detector
+float Quartz_n    = 1.47;
+float AreaCrystal = 25. * 25.;
+float AreaEff     = AreaCrystal / 4.;
+
+// incident protons
+float IncidentProton = 1e10;
+float Extinction     = 1e-5;
+float OOT            = IncidentProton * Extinction;
 // ------------ Variables - end ---------------
 
 
@@ -88,7 +98,7 @@ void SumEnergy(float id, float r, float px, float py, float pz){
 
     // determine mass and fill seperate energy
     float M = 0;
-    switch ( int(std::abs(id)) ){
+    switch ( int(std::abs( id )) ){
         case 11:   M = M_electron;
                    EnergyElectron[n]  += std::sqrt( px*px + py*py + pz*pz + M*M );
                    NEnergyElectron[n] += 1; 
@@ -110,11 +120,35 @@ void SumEnergy(float id, float r, float px, float py, float pz){
                    NEnergyProton[n] += 1;
                    break;
     }
-
+    
     // filling total particle energy
     Energy[n]  += std::sqrt( px*px + py*py + pz*pz + M*M );
     NEnergy[n] += 1;
 }
+
+//////////////////////////////////////////////////////////
+////////// 4. Passing Cherenkov Threshold Check //////////
+bool CherenkovCheck(float id, float px, float py, float pz){
+    // calculate momentum
+    float P = std::sqrt( px*px + py*py + pz*pz );
+
+    // determine mass
+    float M = 0;
+    switch ( int(std::abs( id )) ){
+        case 11:   M = M_electron;
+        case 13:   M = M_muon;
+        case 211:  M = M_pion;
+        case 321:  M = M_kaon;
+        case 2212: M = M_proton;
+    }
+
+    // Cherenkov threshold
+    float thre = M / std::sqrt( Quartz_n*Quartz_n - 1 );
+    if ( P > thre ) return true;
+
+    return false;
+}
+
 
 ///////////////////////////////////
 ////////// main function //////////
@@ -151,6 +185,10 @@ void VDtoIC(){
     TH1D *h_scatter = new TH1D( "scatter", "scatter", NBIN, 0, END );
     TH1D *h_scatterT = new TH1D( "scatterT", "scatterT", NBIN, 0, END );
 
+    // Histograms of PMT coincidence
+    TH1D *h_1PMT = new TH1D( "1PMT", "1PMT", NBIN, 0, END );
+    TH1D *h_3PMT = new TH1D( "3PMT", "3PMT", NBIN, 0, END );
+
     // Graph - E vs R
     // defining R
     float Radius[50] = {0};
@@ -171,36 +209,53 @@ void VDtoIC(){
         // get radius of detected particles
         float radius = std::sqrt( X*X + Y*Y );
 
-        // <Histogram> filling - n/mm^2/proton
+        // <Histogram - 1> Normalized Rate - n/mm^2/proton
         // 1. All particles detected
         h_scatter->Fill(radius);
-        // 2. Only particles traced back to IC
+
+        // Trace back to IC + pipe
         if ( TraceCheck( X, Y, P_x, P_y, P_z ) ){
+            // <Histogram - 1> Normalized Rate - n/mm^2/proton
+            // 2. Only particles traced back to IC
             h_scatterT->Fill(radius);  
         
             // <Graph> summing up energies
             SumEnergy( ID, radius, P_x, P_y, P_z );
+
+            // <Histogram - 2> Rate in the first PMT / 1 Coincidence
+            if ( CherenkovCheck( ID, P_x, P_y, P_z ) ) h_1PMT->Fill(radius);
+
+            // <Histogram - 2> Rate passing all three PMTs / 3-fold Coincidence
+            if ( CherenkovCheck( ID, P_x, P_y, P_z ) ) h_3PMT->Fill(radius);
         } 
     }
     // -------------------------------- Event looping - end -------------------------------
 
-    // -------------------- <Histogram> reweighting to n / (area * Nprotons) - begin ------------------
+    // -------------------- <Histogram - Rate vs Radius> reweighting to n / (area * Nprotons) - begin ------------------
     for (int i = 1; i <= NBIN; i++){
+        // Get i_th number of scattering particles 
         float n = h_scatter->GetBinContent(i);
         float nT = h_scatterT->GetBinContent(i);
+        float n_1PMT = h_1PMT->GetBinContent(i);
+        float n_3PMT = h_3PMT->GetBinContent(i);
 
-        // i_th Annular area 
+        // Divided by i_th Annular area 
         float area = TMath::Pi() * ( std::pow( START + 10*i, 2 ) - std::pow( START - 10 + 10*i, 2 ) );
         n /= ( area * Nprotons );
         nT /= ( area * Nprotons );
+        n_1PMT /= ( area * Nprotons / (AreaCrystal * OOT) );
+        n_3PMT /= ( area * Nprotons / (AreaEff     * OOT) );
 
-        // reweighting
+        // Reweighting
         h_scatter->SetBinContent(i, n);
         h_scatterT->SetBinContent(i, nT);
+        h_1PMT->SetBinContent(i, n_1PMT);
+        h_3PMT->SetBinContent(i, n_3PMT);
     }
-    // -------------------- <Histogram> reweighting to n / (area * Nprotons) - end --------------------
+    // -------------------- <Histogram - Rate vs Radius> reweighting to n / (area * Nprotons) - end --------------------
 
     // -------------------- <Graph> drawing - begin -------------------
+    // <Graph - 1> Mean Energy vs Radius
     for (int i = 0; i < NBIN_graph; i++){
         MeanEnergy[i]         = NEnergy[i]         != 0 ? Energy[i]         / NEnergy[i]         : 0; 
         MeanEnergyProton[i]   = NEnergyProton[i]   != 0 ? EnergyProton[i]   / NEnergyProton[i]   : 0;
@@ -223,16 +278,39 @@ void VDtoIC(){
     g3->SetName("energyPion");
     g4->SetName("energyMuon");
     g5->SetName("energyElectron");
+
+    // <Graph - 2> Nparticles vs Radius
+    TGraph *g1N = new TGraph( NBIN_graph, Radius, NEnergyProton );
+    TGraph *g2N = new TGraph( NBIN_graph, Radius, NEnergyKaon );
+    TGraph *g3N = new TGraph( NBIN_graph, Radius, NEnergyPion );
+    TGraph *g4N = new TGraph( NBIN_graph, Radius, NEnergyMuon );
+    TGraph *g5N = new TGraph( NBIN_graph, Radius, NEnergyElectron );
+
+    g1N->SetName("nProton");
+    g2N->SetName("nKaon");
+    g3N->SetName("nPion");
+    g4N->SetName("nMuon");
+    g5N->SetName("nElectron");
     // -------------------- <Graph> drawing - end ---------------------
 
     // -- output rootfile --
     TFile *outputFile = new TFile( outfileName, "RECREATE" );
     h_scatter->Write();
     h_scatterT->Write();
+
+    h_1PMT->Write();
+    h_3PMT->Write();
+
     g->Write();
     g1->Write();
     g2->Write();
     g3->Write();
     g4->Write();
     g5->Write();
+
+    g1N->Write();
+    g2N->Write();
+    g3N->Write();
+    g4N->Write();
+    g5N->Write();
 }
