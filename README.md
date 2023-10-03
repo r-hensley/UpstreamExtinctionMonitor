@@ -81,17 +81,23 @@
       $$p > \frac{M}{\sqrt{n^2 - 1}}$$
       (refractive index of Quartz: n = 1.47)
     - Integrate over cube area of the crystal: Area = 25mm*25mm
+    - Multiply by the number of proton incidents on the IC: $10^{10}$ in a pulse or $10^{5}$ out of time ($10^{-5}$ extinction)
+      $$Rate_\text{1PMT} = \text{Rate} \times \text{Area} \times N_\text{OOT}$$
   - (2-2) Photoelectron Yield in the first PMT (1 coincidence) vs Radius
     - Tracks that Point to Foil
     - Pass Cherenkov threshold
     - Integrate over cube area of the crystal: Area = 25mm*25mm
+    - Multiply by the number of proton incidents on the IC: $10^{10}$ in a pulse or $10^{5}$ out of time ($10^{-5}$ extinction)
     - Multiply by p.e.yield 187 (for 3.8 GeV Proton Gun)
+      $$Yield_\text{1PMT} = \text{Rate} \times \text{Area} \times N_\text{OOT} \times 187$$
   - (3) 3-fold Coincidence Rate vs Radius
     - Tracks that Point to Foil
     - Pass Cherenkov threshold
-    - Using "Effective Area" = $\frac{1}{4}\times$ Area
+    - Using "Effective Area" AreaEff = $\frac{1}{4}\times$ Area
       - Assumption: point-like scattering from the center of the IC
       - The first PMT 1m downstream; The third PMT 2m downstream
+    - Multiply by the number of proton incidents on the IC: $10^{10}$ in a pulse or $10^{5}$ out of time ($10^{-5}$ extinction)
+      $$Rate_\text{3PMT} = \text{Rate} \times \text{AreaEff} \times N_\text{OOT}$$
 - **Graph**
   - (1) Distribution of mean energies
       - Using $p_x$, $p_y$, $p_z$ and $M$ to calculate the particle energy (M_proton = 938.272 MeV, M_kaon = 493.677 MeV, M_pion = 139.6 MeV, M_muon = 105.7 MeV, M_electron = 0.511 MeV)
