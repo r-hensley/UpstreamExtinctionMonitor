@@ -107,27 +107,32 @@
 
   - (2) Distribution of particle numbers
 
-#### Output file
+#### Output file 
     root --web=off -l root/rootfiles/ScatterDistribution.root
 <p align="center">
   <img width="600" alt="ScatterDistribution" src="https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/d694620b-a01a-48aa-8e89-597aaaf28f42">
 </p>
 
-### Part 3 (ROOT macro - "root/"): Draw plots
+### Part 3 (ROOT macro - "root/"): Draw plots saved in "root/figures/"
 ### Histograms 
 #### Run
     root -l root/drawHist.C
-### Output figures 
-1. "root/figures/Nscatter_compare_1e07.png"
-   - Scattering Rate vs Radius (Comparison between all charged and tracks that point to foil)
+ 
+1. Scattering Rate vs Radius - "root/figures/Nscatter_compare_1e07.png"
 ![Nscatter_compare_1e07](https://github.com/Mu2e/UpstreamExtinctionMonitor/assets/107279970/931dbc9a-bb3c-42d3-961c-ec1ab8e7afa0)
 
+2. OOT Conincidence Rate in PMT vs Radius - "Nscatter_compare_Cherenkov1e07.png"
+![Nscatter_compare_Cherenkov1e07](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/3eb5c7a6-2697-4077-ac53-0755ae1d0c60)
 
 
-#### Graph - Mean Energy vs Radius (for different particles)
+
+### Graph 
+#### Run
     root -l root/drawGraph.C
-- Output figure -- "root/figures/MeanEnergy_vs_R_1e07_all.png"
+1. Mean Energy vs Radius - "root/figures/MeanEnergy_vs_R_1e07_all.png"
   - Dominant particles (Smooth): Proton, Pion, Electron
   - "Rare" particles (Jagged): Kaon, Muon
 ![MeanEnergy_vs_R_1e07_all_inPipe](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/48409ea2-3f33-4e6e-b552-ec0f771c41ec)
 
+2. Number of Particles vs Radius - "nParticles_vs_R_1e07_all.png"
+![nParticles_vs_R_1e07_all](https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/237c6edd-3ad8-407f-a474-e677688fdf59)
