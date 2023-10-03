@@ -8,10 +8,11 @@
   - (2-1) Scattering Rate in the first PMT (1 coincidence) vs Radius - Cherenkov threshold passed
   - (2-2) Photoelectron Yield in the first PMT (1 coincidence) vs Radius - Cherenkov threshold passed (p.e.yield 187)
   - (3) 3-fold Coincidence Rate vs Radius - Cherenkov threshold passed
-- Graph
-  - Particle Mean Energy vs Radius - Tracks that Point to Foil
+- Graph - pass "Tracks that Point to Foil"
+  - (1) Particle Mean Energy vs Radius 
     - Dominant particles: Proton, Pion, Electron (p.e.yield 187 for 3.8 GeV Proton Gun)
     - "Rare" particles: Kaon, Muon
+  - (2) Nparticles vs Radius
 
 ## Simulation of scattering in Ion Chamber using G4beamline
 
@@ -59,37 +60,63 @@
 #### Get plots
     root -l root/VDtoIC.C
 - Charged particles (PDGid): electron (11), muon (13), pion (211), kaon (321), proton (2212)
-- **(Histogram)** Distributions of scattering particle rates
-  1. All detected charged particles: "scatter"
-     - Using $x$, $y$ for radius range division (binning) | $z$ fixed at VD\
-       $$r = \sqrt{x^{2} + y^{2}}$$
-  2. Only charged particles traced back to IC: "scatterT"
-     - Using $p_x$, $p_y$, $p_z$ to trace back a detected particle
-     - Location at the plane of IC:\
-       $$x_1 = x - p_x\times\frac{1000}{p_z} $$
-       $$y_1 = y - p_y\times\frac{1000}{p_z} $$
-     - Check if inside IC: (IC/foil geometry: 70mm(H) * 70mm(W) * (0.004 * 0.0625 * 25.4mm)(L))
-       $$|x_1| < 35 \quad\text{and}\quad |y_1| < 35$$
-     - Check if inside beam pipe: (innerRadius = 38.1mm)
-       $$r_1 = \sqrt{x_{1}^{2} + y_{1}^{2}} < 38.1$$
-- **(Graph)** Distribution of energies
-  - Using $p_x$, $p_y$, $p_z$ and $M$ to calculate the particle energy (M_proton = 938.272 MeV, M_kaon = 493.677 MeV, M_pion = 139.6 MeV, M_muon = 105.7 MeV, M_electron = 0.511 MeV)
-    $$E = \sqrt{{p_x}^{2} + {p_y}^{2} + {p_z}^{2} + M^{2}}$$
-  - The mean particle energy $\bar{E_i}$ at a given radius $r_i$
-    $$\bar{E_i} = \frac{1}{\text{num of}j}\sum_{\[r_i-5, r_i+5\]} E_{j}$$
+- **Histogram**
+  - (1) Distributions of scattering particle rates vs Radius
+    1. All detected charged particles: "scatter"
+       - Using $x$, $y$ for radius range division (binning) | $z$ fixed at VD\
+         $$r = \sqrt{x^{2} + y^{2}}$$
+    2. Only charged particles traced back to IC: "scatterT"
+       - Using $p_x$, $p_y$, $p_z$ to trace back a detected particle
+       - Location at the plane of IC:\
+         $$x_1 = x - p_x\times\frac{1000}{p_z} $$
+         $$y_1 = y - p_y\times\frac{1000}{p_z} $$
+       - Check if inside IC: (IC/foil geometry: 70mm(H) * 70mm(W) * (0.004 * 0.0625 * 25.4mm)(L))
+         $$|x_1| < 35 \quad\text{and}\quad |y_1| < 35$$
+       - Check if inside beam pipe: (innerRadius = 38.1mm)
+         $$r_1 = \sqrt{x_{1}^{2} + y_{1}^{2}} < 38.1$$
+
+  - (2-1) Scattering Rate in the first PMT (1 coincidence) vs Radius
+    - Tracks that Point to Foil
+    - Pass Cherenkov threshold
+      $$p > \frac{M}{\sqrt{n^2 - 1}}$$
+      (refractive index of Quartz: n = 1.47)
+    - Integrate over cube area of the crystal: Area = 25mm*25mm
+  - (2-2) Photoelectron Yield in the first PMT (1 coincidence) vs Radius
+    - Tracks that Point to Foil
+    - Pass Cherenkov threshold
+    - Integrate over cube area of the crystal: Area = 25mm*25mm
+    - Multiply by p.e.yield 187 (for 3.8 GeV Proton Gun)
+  - (3) 3-fold Coincidence Rate vs Radius
+    - Tracks that Point to Foil
+    - Pass Cherenkov threshold
+    - Using "Effective Area" = $\frac{1}{4}\times$ Area
+      - Assumption: point-like scattering from the center of the IC
+      - The first PMT 1m downstream; The third PMT 2m downstream
+- **Graph**
+  - (1) Distribution of mean energies
+      - Using $p_x$, $p_y$, $p_z$ and $M$ to calculate the particle energy (M_proton = 938.272 MeV, M_kaon = 493.677 MeV, M_pion = 139.6 MeV, M_muon = 105.7 MeV, M_electron = 0.511 MeV)
+        $$E = \sqrt{{p_x}^{2} + {p_y}^{2} + {p_z}^{2} + M^{2}}$$
+      - The mean particle energy $\bar{E_i}$ at a given radius $r_i$
+        $$\bar{E_i} = \frac{1}{\text{num of}j}\sum_{\[r_i-5, r_i+5\]} E_{j}$$
+
+  - (2) Distribution of particle numbers
 
 #### Output file
     root --web=off -l root/rootfiles/ScatterDistribution.root
 <p align="center">
-  <img width="500" alt="ScatterDistribution" src="https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/d00ca585-f4cf-4455-8037-5afe937d55fd">
+  <img width="600" alt="ScatterDistribution" src="https://github.com/JingluWang/UpstreamExtinctionMonitor/assets/107279970/d694620b-a01a-48aa-8e89-597aaaf28f42">
 </p>
 
 ### Part 3 (ROOT macro - "root/"): Draw plots
-#### Histograms - Rate vs Radius (Comparison between all charged and tracks that point to foil)
+### Histograms 
+#### Run
     root -l root/drawHist.C
-- Output figure -- "root/figures/Nscatter_compare_1e07.png"\
-  (VD: innerRadius=40 radius=500 | nEvents=1e07)
+### Output figures 
+1. "root/figures/Nscatter_compare_1e07.png"
+   - Scattering Rate vs Radius (Comparison between all charged and tracks that point to foil)
 ![Nscatter_compare_1e07](https://github.com/Mu2e/UpstreamExtinctionMonitor/assets/107279970/931dbc9a-bb3c-42d3-961c-ec1ab8e7afa0)
+
+
 
 #### Graph - Mean Energy vs Radius (for different particles)
     root -l root/drawGraph.C
