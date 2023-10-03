@@ -6,22 +6,25 @@ TString Nevents = "1e07";
 TString input = "rootfiles/ScatterDistribution.root";
 
 // 2. hists to compare
-TString hist1 = "scatter";
-TString hist2 = "scatterT";
+//TString hist1 = "scatter"; TString hist2 = "scatterT";
+TString hist1 = "1PMT"; TString hist2 = "3PMT";
 
 // 3. Axis
 TString XAXIS = "r [mm]";
-TString YAXIS = "n/mm^{2}/proton";
+//TString YAXIS = "n/mm^{2}/proton";
+TString YAXIS = "Number of Out-of-time Particles";
 
 // 4. hists' legends
-TString LEGEND1 = "All Charged Tracks";
-TString LEGEND2 = "Tracks that Point to Foil";
+//TString LEGEND1 = "All Charged Tracks"; TString LEGEND2 = "Tracks that Point to Foil";
+TString LEGEND1 = "First Crystal Rate"; TString LEGEND2 = "3-fold Coincidence";
 
 // 5. text for explanation
 TString TEXT = "";
 
 // 6. output label
-TString LABEL = "figures/Nscatter_compare_" + Nevents + ".png";
+//TString LABEL = "figures/Nscatter_compare_" + Nevents + ".png";
+TString LABEL = "figures/Nscatter_compare_Cherenkov" + Nevents + ".png";
+
 // ------------------------------- Modification Zone - end ----------------------------------
 
 
