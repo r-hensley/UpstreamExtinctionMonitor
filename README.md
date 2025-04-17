@@ -57,7 +57,9 @@
 </p>
 
 #### <3> Run in command line
-    g4beamline g4bl/ICsimulation.g4bl
+    g4bl g4bl/ICsimulation.g4bl
+Note: This runs in G4beamline-3.06 on MacOS. The command-line executable "g4bl" is located: /Applications/G4beamline-3.06.app/Contents/bin/ 
+
 
 ### Part 2 (ROOT macro - "root/"): Loop to find two distributions of detected/traced scattering particles 
 #### Get plots
