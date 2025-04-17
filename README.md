@@ -17,10 +17,8 @@
 ## Simulation of scattering in Ion Chamber using G4beamline
 
 ### Part 1 (g4bl - "g4bl/"): Simulation in g4bl
-#### Run the g4bl code
-    g4beamline g4bl/ICsimulation.g4bl
     
-#### Check the simulation setup inside the source code
+#### <1> Check the simulation setup inside the source code
     vi g4bl/ICsimulation.g4bl
 - **Beam:** gaussian, nEvents=1e07, particle = proton (M = 938.272 MeV, KE = 8000.0 MeV)
   > 6.2 beam --- This command places itself into the geometry
@@ -45,7 +43,7 @@
   - distance from IC: 1 m
   > 6.96 virtualdetector Construct a VirtualDetector that generates an NTuple --- via place
   
-#### Run with g4blgui 
+#### <2> Run in GUI mode 
 1. Root-output mode: "Run" without "Visualization" 
   (event rate: 13450 evt/s)\
   Output -- "g4bl/g4beamline.root"
@@ -58,6 +56,8 @@
   <img width="500" alt="ICsimulation" src="https://github.com/JingluWang/G4beamline/assets/107279970/2e058818-4c25-451b-bb87-bcdc267e2241">
 </p>
 
+#### <3> Run in command line
+    g4beamline g4bl/ICsimulation.g4bl
 
 ### Part 2 (ROOT macro - "root/"): Loop to find two distributions of detected/traced scattering particles 
 #### Get plots
