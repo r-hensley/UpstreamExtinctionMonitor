@@ -18,7 +18,7 @@ param pP=sqrt(($pM+$pKE)*($pM+$pKE)-$pM*$pM) # MeV/c proton momentum
 
 
 # nEvents
-param nparticles=1e07
+param nparticles=1e03
 
 ###############################################
 ##############    Definition    ###############
@@ -59,6 +59,8 @@ box VacPlateB height=70.0  width=70.0  length=$LEN_VacPlate                color
 
 ##############  Virtual Detector (output format - root/ascii)
 virtualdetector VD    radius=500   innerRadius=40    length=1  color=1,1,0   format=rootExtended coordinates=centerline
+newparticlentuple NEW format=rootExtended
+beamlossntuple LOSS format=rootExtended
 
 ###################################################
 ##############  Place in the world  ###############
