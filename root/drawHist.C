@@ -1,34 +1,61 @@
 #include "lib.h"
 
-// ------------------------------- Modification Zone - begin --------------------------------
-// 1. input rootfile
-TString Nevents = "1e07";
-TString input = "rootfiles/ScatterDistribution.root";
-
-// 2. hists to compare
-//TString hist1 = "scatter"; TString hist2 = "scatterT";
-TString hist1 = "1PMT"; TString hist2 = "3PMT";
-
-// 3. Axis
-TString XAXIS = "r [mm]";
-//TString YAXIS = "n/mm^{2}/proton";
-TString YAXIS = "Number of Out-of-time Particles";
-
-// 4. hists' legends
-//TString LEGEND1 = "All Charged Tracks"; TString LEGEND2 = "Tracks that Point to Foil";
-TString LEGEND1 = "First Crystal Rate"; TString LEGEND2 = "3-fold Coincidence";
-
-// 5. text for explanation
-TString TEXT = "";
-
-// 6. output label
-//TString LABEL = "figures/Nscatter_compare_" + Nevents + ".png";
-TString LABEL = "figures/Nscatter_compare_Cherenkov" + Nevents + ".png";
-
-// ------------------------------- Modification Zone - end ----------------------------------
-
-
 void drawHist(){
+
+    // ------------------------------- Modification Zone - begin --------------------------------
+
+    // Mode 1: 
+    int mode = 1;  // mode=1: Scattering rate histogram, mode=2: 1PMT / 3PMT coincidence histograms
+
+    // 1. input rootfile
+    TString Nevents = "1e07";
+    TString input;
+    if (mode == 1 || mode == 2) {
+        input = "rootfiles/ScatterDistribution.root";
+    } else {
+        std::cerr << "Invalid mode selected!" << std::endl;
+        return 1;
+    }
+
+    // 2. hists to compare
+    TString hist1, hist2;
+    if (mode == 1) {
+        hist1 = "scatter"; hist2 = "scatterT";
+    } else if (mode == 2) {
+        hist1 = "1PMT"; hist2 = "3PMT";
+    }
+
+    // 3. Axis
+    TString XAXIS = "r [mm]";
+    TString YAXIS;
+    if (mode == 1) {
+        YAXIS = "n/mm^{2}/proton";
+    } else if (mode == 2) {
+        YAXIS = "Number of Out-of-time Particles";
+    }
+
+    // 4. hists' legends
+    TString LEGEND1, LEGEND2;
+    if (mode == 1) {
+        LEGEND1 = "All Charged Tracks"; LEGEND2 = "Tracks that Point to Foil";
+    } else if (mode == 2) {
+        LEGEND1 = "First Crystal Rate"; LEGEND2 = "3-fold Coincidence";
+    }
+
+    // 5. text for explanation
+    TString TEXT = "";  // No difference between modes currently, but could change if needed
+
+    // 6. output label
+    TString LABEL;
+    if (mode == 1) {
+        LABEL = "figures/Nscatter_compare_" + Nevents + ".png";
+    } else if (mode == 2) {
+        LABEL = "figures/Nscatter_compare_Cherenkov" + Nevents + ".png";
+    }
+
+    // ------------------------------- Modification Zone - end --------------------------------
+
+
     TFile *f = new TFile( input );// 1. input rootfile
     TH1D *HIST = (TH1D*) f->Get( hist1 );// 2. hist1 imported
     HIST->SetDirectory(0);
